@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const multer = require('multer');
+let Photo = require('../models/Photo')
 
 // cloudinary
 const cloudinary = require('cloudinary');
@@ -18,15 +18,18 @@ router.get("/", (req, res) => {
 
 router.post("/images/add", async (req, res) => {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    const newPhoto = new FormData({
-        imageUrl: result.url,
+    const newPhoto = new Photo({
+        imageURL: result.secure_url,
         public_id: result.public_id
     });
-    console.log(newPhoto)
-    // await newPhoto.save()
+    await newPhoto.save()
+        .then(newPhoto => {
+            res.status(200).json('newPhoto added successfully')
+        })
+        .catch(err => {
+            res.status(400).json.send('adding new newPhoto failed')
+        })
     await fs.unlink(req.file.path);
-    res.send(console.log("ok"))
-
 })
 
 

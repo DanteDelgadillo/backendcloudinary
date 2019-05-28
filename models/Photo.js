@@ -1,4 +1,6 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 
 const Photo = new Schema({
     title: String,
@@ -7,4 +9,5 @@ const Photo = new Schema({
     public_id: String
 });
 
-module.exports = module("Photo", Photo);
+
+module.exports = mongoose.model("Photo", Photo);
