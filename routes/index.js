@@ -1,5 +1,6 @@
 const { Router } = require('express');
-let Photo = require('../models/Photo')
+let Photo = require('../models/Photo');
+const fs = require('fs-extra')
 
 // cloudinary
 const cloudinary = require('cloudinary');
@@ -9,7 +10,7 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 })
 
-const fs = require('fs-extra')
+
 const router = Router();
 
 router.get("/getAllImages", (req, res) => {
@@ -33,7 +34,9 @@ router.post("/images/add", async (req, res) => {
     });
     await newPhoto.save()
         .then(newPhoto => {
-            res.status(200).json('newPhoto added successfully')
+            res
+                .status(200)
+                .json(newPhoto);
         })
         .catch(err => {
             res.status(400).json.send('adding new newPhoto failed')
