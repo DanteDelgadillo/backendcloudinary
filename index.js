@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 })
 app.use(multer({ storage }).single("file"));
 
-mongoose.connect(process.env.MONGODB_CONNECTION, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
 const connection = mongoose.connection;
 
 connection.once("open", function () {
